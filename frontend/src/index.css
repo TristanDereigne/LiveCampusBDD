@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+
+
+
+body, html{
+    background-color: #F1F1F1;
+    padding: 64px;
+    height: 100%;
+    width:100% ;
+    margin:0;
+}
+
+.title{
+    background-image: linear-gradient(to right,#4857FF,#2B3499);
+    background-clip: text;
+    color: transparent;
+}
+
+.test{
+border: 1px solid red ;
+
+}
