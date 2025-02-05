@@ -1,4 +1,5 @@
 function ProductCreate() {
+  
   return (
     <div className="p-6  bg-white rounded-lg shadow mt-0">
       <h1 className="text-xl text-black mb-4">Créer un produit</h1>
