@@ -2,7 +2,7 @@ function ProductCreate() {
 
     return (
 
-        <h1 className="text-xl text-black">Hello produit create</h1>
+        <h1 className="text-xl text-black">Hello produit s create</h1>
 
     )
 }
