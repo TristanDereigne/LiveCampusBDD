@@ -15,7 +15,7 @@ function Display() {
 
               <div className="bg-white w-full h-full rounded-[16px] p-16">
                   <DisplayNavigator/>
-                  <div className="mt-4">
+                  <div className="mt-8">
                       <RouteNav/>
                   </div>
               </div>
