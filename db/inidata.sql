@@ -8,7 +8,7 @@ INSERT INTO categories (nom) VALUES
 
 
 
-INSERT INTO fournisseur (nom) VALUES 
+INSERT INTO fournisseurs (nom) VALUES 
 ('TechWorld'),
 ('ElectroShop'),
 ('GamerZone'),
