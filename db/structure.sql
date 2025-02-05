@@ -1,5 +1,5 @@
-
-CREATE DATABASE IF NOT EXISTS LiveCampusBDD;
+DROP DATABASE IF EXISTS LiveCampusBDD;
+CREATE DATABASE LiveCampusBDD;
 USE LiveCampusBDD;
 
 CREATE TABLE categories (
@@ -9,16 +9,18 @@ CREATE TABLE categories (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE fournisseur (
+
+CREATE TABLE fournisseurs (
     id INT AUTO_INCREMENT,
     nom VARCHAR(254) UNIQUE NOT NULL,
   date_creation DATE DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
+
 CREATE TABLE produits (
     id INT AUTO_INCREMENT, 
-    nom VARCHAR(254) NOT NULL UNIQUE, 
+    nom VARCHAR(254) NOT NULL , 
     produit_description TEXT,
     prix_achat DECIMAL(10,2),
     statut ENUM('disponible','en rupture') DEFAULT 'disponible',
@@ -28,9 +30,7 @@ CREATE TABLE produits (
     category_id INT NOT NULL,
     
     PRIMARY KEY (id),
-    FOREIGN KEY (fournisseur_id) REFERENCES fournisseur(id) ON DELETE CASCADE,
+    FOREIGN KEY (fournisseur_id) REFERENCES fournisseurs(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+
 ) ENGINE=InnoDB;
-
-
-
