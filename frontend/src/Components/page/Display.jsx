@@ -5,6 +5,7 @@ import CategoryList from "./categories/CategoryList.jsx";
 import ProviderList from "./provider/ProviderList.jsx";
 import ProductList from "./products/ProductList.jsx";
 import React from "react";
+import RouteNav from "./RouteNav.jsx";
 
 function Display() {
     
@@ -16,12 +17,7 @@ function Display() {
                   <DisplayNavigator/>
               </div>
               <div className="mt-4">
-                  <Routes>
-                      <Route path="/" element={<ProductList/>}/>
-                      <Route path="/produits" element={<ProductList/>}/>
-                      <Route path="/fournisseurs" element={<ProviderList/>}/>
-                      <Route path="/categories" element={<CategoryList/>}/>
-                  </Routes>
+                  <RouteNav />
               </div>
           </BrowserRouter>
 
