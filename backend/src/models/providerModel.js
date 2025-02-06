@@ -2,46 +2,39 @@ const db = require("./db");
 
 const Provider = {
   getAllProviders: (callback) => {
-    db.query("SELECT * FROM provider", (err, results) => {
+    db.query("CALL GetAllProviders()", (err, results) => {
       if (err) return callback(err, null);
-      callback(null, results);
-    });
-  },
-  getOneProvider: (id, callback) => {
-    db.query("SELECT * FROM provider WHERE id = ?", [id], (err, results) => {
-      if (err) return callback(err, null);
-      if (results.length === 0) return callback(null, null);
       callback(null, results[0]);
     });
   },
-  createProvider: (name, date_creation, callback) => {
-    db.query(
-      "INSERT INTO provider (name, date_creation) VALUES (?, ?)",
-      [name, date_creation],
-      (err, result) => {
-        if (err) return callback(err, null);
-        callback(null, {
-          id: result.insertId,
-          name,
-          date_creation,
-        });
-      }
-    );
+
+  getOneProvider: (id, callback) => {
+    db.query("CALL GetOneProvider(?)", [id], (err, results) => {
+      if (err) return callback(err, null);
+      if (results[0].length === 0) return callback(null, null);
+      callback(null, results[0][0]);
+    });
   },
+
+  createProvider: (name, callback) => {
+    db.query("CALL CreateProvider(?)", [name], (err, result) => {
+      if (err) return callback(err, null);
+      callback(null, { message: "Provider created" });
+    });
+  },
+
   updateProvider: (id, name, callback) => {
-    db.query(
-      "UPDATE provider SET name = ? WHERE id = ?"[(name, id)],
-      (err, result) => {
-        if (err) return callback(err, null);
-        callback(null, {
-          message: "Provider name changed",
-          affectedRows: result.affectedRows,
-        });
-      }
-    );
+    db.query("CALL UpdateProvider(?, ?)", [id, name], (err, result) => {
+      if (err) return callback(err, null);
+      callback(null, {
+        message: "Provider name updated",
+        affectedRows: result.affectedRows,
+      });
+    });
   },
+
   deleteProvider: (id, callback) => {
-    db.query("DELETE FROM provider WHERE id = ?", [id], (err, result) => {
+    db.query("CALL DeleteProvider(?)", [id], (err, result) => {
       if (err) return callback(err, null);
       callback(null, {
         message: "Provider deleted",
