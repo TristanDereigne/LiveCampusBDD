@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router";
+import {ProductService} from "../../../../services/Products/ProductService.js";
 
 function ProductCreate() {
 
@@ -22,10 +23,12 @@ function ProductCreate() {
     name: "MSI"
   }
 
+  const [product, setProduct] = useState([]);
   const categories = [category1, category2];
   const providers = [provider1, provider2];
 
   const [formData, setFormData] = useState({
+    id:'',
     productName: '',
     description: '',
     price: '',
@@ -42,12 +45,19 @@ function ProductCreate() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Données du formulaire:', formData);
-    navigate('/produits');
-  };
+    try {
+      const response = await ProductService.createProduct(formData, formData.id)
+      setProduct(response);
+      navigate('/produits');
+    } catch (error) {
+      alert("Impossible de créer le produit")
+      console.error(error);
+    }
 
+  };
 
   return (
 
