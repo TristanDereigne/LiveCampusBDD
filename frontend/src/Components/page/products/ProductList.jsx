@@ -1,10 +1,11 @@
 import DataList from "../DataList.jsx";
 import {useEffect} from "react";
 import {ProductService} from "../../../../services/Products/ProductService.js";
+import {NavLink} from "react-router";
 
 function ProductList() {
 
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await ProductService.getAllProducts();
@@ -15,7 +16,7 @@ function ProductList() {
         };
 
         fetchProducts();
-    }, []);
+    }, []);*/
 
     let product = {
         id:'1',
@@ -38,12 +39,14 @@ function ProductList() {
         <div className="bg-[#F1F1F1] w-full rounded-[16px] py-6 px-8 flex flex-col gap-6 max-h-[60vh] overflow-scroll overflow-x-hidden">
 
             {products.map((product, index) => (
-                <DataList
-                    key={product.id}
-                    title={product.title}
-                    category={product.category}
-                    description={product.description}
-                />
+                <NavLink to={`/produits/${product.id}`} key={product.id}>
+                    <DataList
+                        title={product.title}
+                        category={product.category}
+                        description={product.description}
+                    />
+                </NavLink>
+
             ))}
 
         </div>
