@@ -20,7 +20,7 @@ function RouteNav() {
 
             <Route path="/produits" element={<ProductList/>}/>
             <Route path="/produits/creer" element={<ProductCreate/>}/>
-            <Route path="/produits/modifier" element={<ProductModify/>}/>
+            <Route path="/produits/:id" element={<ProductModify/>}/>
 
             <Route path="/fournisseurs" element={<ProviderList/>}/>
             <Route path="/fournisseurs/creer" element={<ProviderCreate/>}/>
