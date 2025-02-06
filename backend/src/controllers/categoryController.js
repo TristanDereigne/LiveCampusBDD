@@ -17,6 +17,16 @@ const createCategory = (req, res) => {
     res.status(201).json(newCategory);
   });
 };
+const getOneCategory = (req, res) => {
+  const { id } = req.params;
+
+  Category.getOneCategory(id, (err, category) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!category) return res.status(404).json({ error: "Category not found" });
+
+    res.status(200).json(category);
+  });
+};
 
 const updateCategory = (req, res) => {
   const { id } = req.params;
@@ -45,6 +55,7 @@ const deleteCategory = (req, res) => {
 
 module.exports = {
   getAllCategories,
+  getOneCategory,
   createCategory,
   updateCategory,
   deleteCategory,

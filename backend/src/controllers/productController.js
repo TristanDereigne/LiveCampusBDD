@@ -6,7 +6,16 @@ const getAllProducts = (req, res) => {
     res.json(products);
   });
 };
+const getOneProduct = (req, res) => {
+  const { id } = req.params;
 
+  Product.getOneProduct(id, (err, product) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!product) return res.status(404).json({ error: "Product not found" });
+
+    res.status(200).json(product);
+  });
+};
 const createProduct = (req, res) => {
   const {
     name,
@@ -105,6 +114,7 @@ const deleteProduct = (req, res) => {
 
 module.exports = {
   getAllProducts,
+  getOneProduct,
   createProduct,
   updateProduct,
   deleteProduct,

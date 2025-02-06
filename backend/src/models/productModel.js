@@ -8,6 +8,14 @@ const Product = {
     });
   },
 
+  getOneProduct: (id, callback) => {
+    db.query("SELECT * FROM product WHERE id = ?", [id], (err, results) => {
+      if (err) return callback(err, null);
+      if (results.length === 0) return callback(null, null);
+      callback(null, results[0]);
+    });
+  },
+
   createProduct: (
     name,
     description,
