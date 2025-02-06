@@ -7,7 +7,13 @@ const Provider = {
       callback(null, results);
     });
   },
-
+  getOneProvider: (id, callback) => {
+    db.query("SELECT * FROM provider WHERE id = ?", [id], (err, results) => {
+      if (err) return callback(err, null);
+      if (results.length === 0) return callback(null, null);
+      callback(null, results[0]);
+    });
+  },
   createProvider: (name, date_creation, callback) => {
     db.query(
       "INSERT INTO provider (name, date_creation) VALUES (?, ?)",
