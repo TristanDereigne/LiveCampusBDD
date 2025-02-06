@@ -6,7 +6,16 @@ const getAllProviders = (req, res) => {
     res.json(provider);
   });
 };
+const getOneProvider = (req, res) => {
+  const { id } = req.params;
 
+  Provider.getOneProvider(id, (err, provider) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!provider) return res.status(404).json({ error: "Provider not found" });
+
+    res.status(200).json(provider);
+  });
+};
 const createProvider = (req, res) => {
   const { name, date_creation } = req.body;
   if (!name || !date_creation)
@@ -45,6 +54,7 @@ const deleteProvider = (req, res) => {
 
 module.exports = {
   getAllProviders,
+  getOneProvider,
   createProvider,
   updateProvider,
   deleteProvider,

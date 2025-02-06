@@ -7,7 +7,13 @@ const Category = {
       callback(null, results);
     });
   },
-
+  getOneCategory: (id, callback) => {
+    db.query("SELECT * FROM category WHERE id = ?", [id], (err, results) => {
+      if (err) return callback(err, null);
+      if (results.length === 0) return callback(null, null);
+      callback(null, results[0]);
+    });
+  },
   createCategory: (name, date_creation, callback) => {
     db.query(
       "INSERT INTO category (name, date_creation) VALUES (?, ?)",
