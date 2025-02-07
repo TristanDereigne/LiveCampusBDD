@@ -6,6 +6,17 @@ DROP DATABASE IF EXISTS LiveCampusBDD;
 CREATE DATABASE LiveCampusBDD;
 USE LiveCampusBDD;
 
+
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
 CREATE TABLE categories (
     id INT AUTO_INCREMENT,
     name VARCHAR(254) NOT NULL,
@@ -296,7 +307,49 @@ DELETE FROM categories WHERE  id = c_id;
 
 END //
 
-DELIMITER ; 
+-- Creer un utilisateur ------------------------------------------------
+
+CREATE PROCEDURE CreateUser(
+    IN p_username VARCHAR(50), 
+    IN p_password VARCHAR(255)
+)
+BEGIN
+    DECLARE hashed_password VARCHAR(255);
+    
+    SET hashed_password = SHA2(p_password, 256);
+
+    INSERT INTO users (username, password) 
+    VALUES (p_username, hashed_password);
+END //
+
+----------- Supprimmer un user -------------------------------------------------
+
+CREATE PROCEDURE DeleteUser(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM users WHERE id = p_id;
+END //
+
+-- Recuperer tous les users -------------------------------------------
+
+CREATE PROCEDURE GetAllUsers()
+BEGIN
+    SELECT id, username, date_creation FROM users ORDER BY date_creation DESC;
+END //
+
+
+------ Recuperer un user ------------------------
+CREATE PROCEDURE GetUserByUsername(
+    IN p_username VARCHAR(50)
+)
+BEGIN
+    SELECT id, username, password 
+    FROM users 
+    WHERE username = p_username;
+END //
+
+DELIMITER ;
 
 
 -- -------------------------Initial Data ----------------------------------------------------------- --
