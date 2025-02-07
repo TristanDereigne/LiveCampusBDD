@@ -14,10 +14,12 @@ function ProductList() {
             try {
                 const response = await ProductService.getAllProducts();
                 if(isMounted){
+                    console.log(response);
                     setProducts(response);
                 }
             } catch (error) {
                 console.error(error);
+                alert("Erreur lors de la récupération des produits, veuillez contacter le support.")
             }
         };
 
