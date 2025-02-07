@@ -9,7 +9,7 @@ USE LiveCampusBDD;
 CREATE TABLE categories (
     id INT AUTO_INCREMENT,
     name VARCHAR(254) NOT NULL,
-    date_creation DATE DEFAULT CURRENT_TIMESTAMP,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -17,7 +17,7 @@ CREATE TABLE categories (
 CREATE TABLE providers (
     id INT AUTO_INCREMENT,
     name VARCHAR(254) UNIQUE NOT NULL,
-  date_creation DATE DEFAULT CURRENT_TIMESTAMP,
+  date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -28,7 +28,7 @@ CREATE TABLE products (
     description TEXT,
     purchase_price DECIMAL(10,2),
     status ENUM('disponible','en rupture') DEFAULT 'disponible',
-    date_creation DATE DEFAULT CURRENT_TIMESTAMP,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
     date_update DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     provider_id INT NOT NULL,
     category_id INT NOT NULL,
@@ -66,9 +66,7 @@ BEGIN
     LEFT JOIN categories c ON p.category_id = c.id
     ORDER BY p.date_creation DESC;
 END //
-DELIMITER ;
 
-DELIMITER //
 CREATE PROCEDURE GetOneProduct(
     IN p_id INT
 )
@@ -90,9 +88,7 @@ BEGIN
     LEFT JOIN categories c ON p.category_id = c.id
     WHERE p.id = p_id;
 END //
-DELIMITER ;
 -- Procedure creer un produit --
-DELIMITER //
 CREATE PROCEDURE InsertProduit(
               
     IN name VARCHAR(254), 
@@ -111,7 +107,7 @@ BEGIN
     SET date_update = NOW();
 
    
-    IF provoder_name IS NOT NULL AND provider_name != '' THEN
+    IF provider_name IS NOT NULL AND provider_name != '' THEN
         
         SELECT id INTO provider_id FROM providers WHERE name = provider_name ;
 
@@ -177,21 +173,17 @@ END //
 
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -- 
 
-DELIMITER //
 CREATE PROCEDURE GetAllProviders()
 BEGIN
     SELECT * FROM providers ORDER BY date_creation DESC;
 END //
-DELIMITER ;
 
-DELIMITER //
 CREATE PROCEDURE GetOneProvider(
     IN p_id INT
 )
 BEGIN
     SELECT * FROM providers WHERE id = p_id;
 END //
-DELIMITER ;
 
 
 -- -------Creer un fournisseur------- -- 
@@ -245,21 +237,17 @@ END //
 
  -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --
 
-DELIMITER //
 CREATE PROCEDURE GetAllCategories()
 BEGIN
     SELECT * FROM categories ORDER BY date_creation DESC;
 END //
-DELIMITER ;
 
-DELIMITER //
 CREATE PROCEDURE GetOneCategory(
     IN c_id INT
 )
 BEGIN
     SELECT * FROM categories WHERE id = c_id;
 END //
-DELIMITER ;
 
 -- Ajouter une categorie ---- 
 
@@ -297,7 +285,6 @@ END //
  -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --
 
 -- Supprimer une categorie ---- 
-
 CREATE PROCEDURE DeleteCategory(
     IN c_id INT 
 
