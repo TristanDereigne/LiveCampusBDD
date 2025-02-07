@@ -27,7 +27,7 @@ export const ProductService = {
 
     getAllProducts: async () => {
         try {
-            response = await instance.get('/product')
+            response = await instance.get('/products')
             console.log(response);
             if(response.status !== 200) {
                 throw new Error(`Erreur HTTP: ${response.status}`);
@@ -41,8 +41,25 @@ export const ProductService = {
             throw error;
         }
     },
-    createProduct: (productToCreate, id) => {
-        instance.post(`/product/${id}`, {
+    createProduct: (productToCreate) => {
+        instance.post(`/products`, {
+            id: productToCreate.id,
+            name: productToCreate.title,
+            purchase_price: productToCreate.purchase_price,
+            description: productToCreate.description,
+            status: productToCreate.status,
+            provider_id: productToCreate.provider_id,
+            category_id: productToCreate.category_id,
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    },
+    updateProduct: (productToModify, id) => {
+        instance.put(`/products/${id}`, {
             id: productToCreate.id,
             name: productToCreate.title,
             purchase_price: productToCreate.purchase_price,
