@@ -1,0 +1,37 @@
+[
+  {
+    "nom_produit": "Chaussures de course Nike",
+    "description_produit": "Confortables et légères pour la course",
+    "nom_revendeur": "SportMax",
+    "en_stock": "Oui",
+    "prix": 129.99
+  },
+  {
+    "nom_produit": "Haltères 10kg",
+    "description_produit": "Haltères en fonte avec revêtement en caoutchouc",
+    "nom_revendeur": "FitnessPro",
+    "en_stock": "Non",
+    "prix": 59.99
+  },
+  {
+    "nom_produit": "Vélo d’appartement",
+    "description_produit": "Idéal pour le cardio et la remise en forme",
+    "nom_revendeur": "SportHouse",
+    "en_stock": "Oui",
+    "prix": 299.99
+  },
+  {
+    "nom_produit": "Gants de boxe Everlast",
+    "description_produit": "Gants de boxe professionnels en cuir",
+    "nom_revendeur": "FightClub",
+    "en_stock": "Oui",
+    "prix": 79.99
+  },
+  {
+    "nom_produit": "Tapis de yoga antidérapant",
+    "description_produit": "Parfait pour les exercices de yoga et de pilates",
+    "nom_revendeur": "ZenSport",
+    "en_stock": "Non",
+    "prix": 34.99
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "p_name": "Aspirine 500mg",
+    "p_description": "Médicament contre les maux de tête",
+    "p_last_update": "2024-02-01T00:00:00Z",
+    "p_status": "En stock",
+    "p_seller": {
+      "id": 1,
+      "name": "PharmaPlus",
+      "creation_date": "2019-06-12T00:00:00Z"
+    }
+  },
+  {
+    "p_name": "Doliprane 1000mg",
+    "p_description": "Analgésique puissant",
+    "p_last_update": "2024-01-20T00:00:00Z",
+    "p_status": "Rupture de stock",
+    "p_seller": {
+      "id": 2,
+      "name": "MediStore",
+      "creation_date": "2020-03-25T00:00:00Z"
+    }
+  },
+  {
+    "p_name": "Ibuprofène 400mg",
+    "p_description": "Anti-inflammatoire et antalgique",
+    "p_last_update": "2023-12-15T00:00:00Z",
+    "p_status": "En stock",
+    "p_seller": {
+      "id": 3,
+      "name": "MedicaPharm",
+      "creation_date": "2018-04-10T00:00:00Z"
+    }
+  },
+  {
+    "p_name": "Paracétamol 500mg",
+    "p_description": "Traitement de la fièvre et douleurs légères",
+    "p_last_update": "2024-01-05T00:00:00Z",
+    "p_status": "En stock",
+    "p_seller": {
+      "id": 4,
+      "name": "Pharmacie Centrale",
+      "creation_date": "2017-09-30T00:00:00Z"
+    }
+  },
+  {
+    "p_name": "Omeprazole 20mg",
+    "p_description": "Traitement des ulcères gastriques",
+    "p_last_update": "2024-02-10T00:00:00Z",
+    "p_status": "Rupture de stock",
+    "p_seller": {
+      "id": 5,
+      "name": "GastroMedi",
+      "creation_date": "2021-01-15T00:00:00Z"
+    }
+  }
+]

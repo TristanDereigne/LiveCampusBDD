@@ -41,21 +41,6 @@ export const ProductService = {
             throw error;
         }
     },
-    getProduct: async (id) => {
-        try {
-            response = await instance.get(`/products/${id}`)
-            if(response.status !== 200) {
-                throw new Error(`Erreur HTTP: ${response.status}`);
-            }
-            if (!response.data) {
-                throw new Error('Pas de donnée reçues');
-            }
-            return response.data;
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    },
     updateProduct: async (updatedProduct, id) => {
         try {
             response = await instance.put(`/products/${id}`, {
@@ -74,24 +59,39 @@ export const ProductService = {
             }
             return response.data;
         } catch (error) {
-            console.log(error);
             throw new Error("Problème pour mettre à jour le produit");
         }
-    }
-    /*createProduct: (productToCreate) => {
-        instance.post(`/products`, {
-            name: productToCreate.title,
-            description: productToCreate.description,
-            purchase_price: productToCreate.purchase_price,
-            status: productToCreate.status,
-            provider_id: productToCreate.provider_id,
-            category_id: productToCreate.category_id,
-        })
-            .then(function (response) {
-                console.log(response);
+    },
+    createProduct: async (createdProduct) => {
+        try {
+            response = await instance.post(`/products`, {
+                name: createdProduct.name,
+                purchase_price: createdProduct.purchase_price,
+                description: createdProduct.description,
+                status: createdProduct.status,
+                provider_id: createdProduct.provider_id,
+                category_id: createdProduct.category_id,
             })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }*/
+            if(response.status !== 200 && response.status !== 201) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            if (!response.data) {
+                throw new Error('Pas de donnée reçues');
+            }
+            return response.data;
+        } catch (error) {
+            throw new Error("Problème pour mettre à jour le produit");
+        }
+    },
+    deleteProduct: async (id) => {
+        try {
+            const response = await instance.delete(`/products/${id}`);
+            if(response.status !== 200) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            return response.data;
+        } catch (error) {
+            throw new Error("Impossible de supprimer le produit");
+        }
+    }
 }

@@ -25,7 +25,6 @@ function RouteNav() {
         const fetchProducts = async () => {
             try {
                 const response = await ProductService.getAllProducts();
-                console.log(response);
                 if(isMounted){
                     setProducts(response);
                 }
@@ -37,7 +36,6 @@ function RouteNav() {
         const fetchProviders = async () => {
             try {
                 const response = await ProviderService.getAllProviders();
-                console.log(response);
                 if(isMounted){
                     setProviders(response);
                 }
@@ -49,7 +47,6 @@ function RouteNav() {
         const fetchCategories = async () => {
             try {
                 const response = await CategoriesService.getAllCategories();
-                console.log(response);
                 if(isMounted){
                     setCategories(response);
                 }
@@ -79,11 +76,11 @@ function RouteNav() {
 
                 <Route path="/fournisseurs" element={<ProviderList/>}/>
                 <Route path="/fournisseurs/creer" element={<ProviderCreate/>}/>
-                <Route path="/fournisseurs/modifier" element={<ProviderModify/>}/>
+                <Route path="/fournisseurs/:id" element={<ProviderModify/>}/>
 
                 <Route path="/categories" element={<CategoryList/>}/>
                 <Route path="/categories/creer" element={<CategoryCreate/>}/>
-                <Route path="/categories/modifier" element={<CategoryModify/>}/>
+                <Route path="/categories/:id" element={<CategoryModify/>}/>
 
             </Routes>
         </AppContext.Provider>

@@ -1,9 +1,22 @@
-import {NavLink} from "react-router";
-import {useState} from "react";
+import {NavLink, useLocation} from "react-router";
+import {useEffect, useState} from "react";
 
 function Navigator() {
 
     const [activeButton, setActiveButton] = useState("Produit");
+
+    const location = useLocation();
+
+    useEffect(() => {
+        const path = location.pathname;
+        if (path.includes("/produits")) {
+            setActiveButton("Produit");
+        } else if (path.includes("/fournisseurs")) {
+            setActiveButton("Fournisseur");
+        } else if (path.includes("/categories")) {
+            setActiveButton("Catégories");
+        }
+    }, [location]);
 
     return (
 
