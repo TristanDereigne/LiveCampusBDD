@@ -3,5 +3,7 @@ import {createContext} from "react";
 export const AppContext = createContext({
     categories: [],
     providers: [],
-    products: []
+    products: [],
+    isLoading: true,
+    error: null
 });

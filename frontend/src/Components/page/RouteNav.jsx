@@ -19,53 +19,49 @@ function RouteNav() {
     const [categories, setCategories] = useState([]);
     const [providers, setProviders] = useState([]);
     const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         let isMounted = true;
-        const fetchProducts = async () => {
+
+        const fetchData = async () => {
+            setIsLoading(true);
+            setError(null);
+
             try {
-                const response = await ProductService.getAllProducts();
-                if(isMounted){
-                    setProducts(response);
+                const [productsResponse, providersResponse, categoriesResponse] = await Promise.all([
+                    ProductService.getAllProducts(),
+                    ProviderService.getAllProviders(),
+                    CategoriesService.getAllCategories()
+                ]);
+
+                if(isMounted) {
+                    setProducts(productsResponse);
+                    setProviders(providersResponse);
+                    setCategories(categoriesResponse);
                 }
             } catch (error) {
-                console.error(error);
-                alert("Erreur lors de la récupération des produits, veuillez contacter le support.")
-            }
-        };
-        const fetchProviders = async () => {
-            try {
-                const response = await ProviderService.getAllProviders();
-                if(isMounted){
-                    setProviders(response);
+                if(isMounted) {
+                    console.error(error);
+                    setError("Impossible de contacter le serveur");
                 }
-            } catch (error) {
-                console.error(error);
-                alert("Erreur lors de la récupération des produits, veuillez contacter le support.")
-            }
-        };
-        const fetchCategories = async () => {
-            try {
-                const response = await CategoriesService.getAllCategories();
-                if(isMounted){
-                    setCategories(response);
+            } finally {
+                if(isMounted) {
+                    setIsLoading(false);
                 }
-            } catch (error) {
-                console.error(error);
-                alert("Erreur lors de la récupération des produits, veuillez contacter le support.")
             }
         };
 
-        fetchProducts();
-        fetchProviders();
-        fetchCategories();
+        fetchData();
+
         return () => {
             isMounted = false;
         };
     }, []);
 
     return (
-        <AppContext.Provider value={{categories, providers,products}}>
+        <AppContext.Provider value={{categories, providers,products, isLoading, error}}>
             <Routes>
 
                 <Route path="/" element={<ProductList/>}/>
