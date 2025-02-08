@@ -8,10 +8,53 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
 - Npm
 - MySQL
 - MongoDB
+  
+⚠️ Configuration importante
+Créez un fichier .env dans le dossier backend avec les champs suivants :
+```sh
+DB_HOST=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
+MONGO_URI=
+ ```
+Ces variables d'environnement sont essentielles pour la connexion aux bases de données. Veuillez les remplir avec vos informations de connexion.
 
 ---
 
-## 📌 2. Installation et démarrage du projet
+## 📌 2. Démarrer MySQL et MongoDB
+
+### 📌 Démarrer MySQL
+
+1. Connectez-vous à MySQL :
+   ```sh
+   mysql -u root -p
+   ```
+2. Créez et initialisez la base de données :
+   ```sql
+   SOURCE /*chemin du projet LiveCampusBDD*/db/iniBDD.sql;
+   USE LiveCampusBDD;
+   ```
+
+### 📌 Démarrer MongoDB
+
+1. Lancez le service MongoDB :
+   ```sh
+   mongod
+   ```
+2. **Importer les fichiers JSON dans MongoDB** :
+   - **Avec MongoDB Compass** :
+     - Accédez à **produits_db**
+     - Importez les fichiers JSON depuis `/backend/src/data/` pour **Gamez, Medidonc et SportSalut**
+   - **Via la ligne de commande** :
+     ```sh
+     mongoimport --db produits_db --collection Gamez --file backend/src/data/gamez.json --jsonArray
+     mongoimport --db produits_db --collection Medidonc --file backend/src/data/medidonc.json --jsonArray
+     mongoimport --db produits_db --collection SportSalut --file backend/src/data/sportsalut.json --jsonArray
+     ```
+---
+
+## 📌 3. Installation et démarrage de l'application
 
 ### 📌 Backend
 
@@ -42,39 +85,6 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants :
    ```sh
    npm run dev
    ```
-
----
-
-## 📌 3. Démarrer MySQL et MongoDB
-
-### 📌 Démarrer MySQL
-
-1. Connectez-vous à MySQL :
-   ```sh
-   mysql -u root -p
-   ```
-2. Créez et initialisez la base de données :
-   ```sql
-   SOURCE /*chemin du projet LiveCampusBDD*/db/iniBDD.sql;
-   USE LiveCampusBDD;
-   ```
-
-### 📌 Démarrer MongoDB
-
-1. Lancez le service MongoDB :
-   ```sh
-   mongod
-   ```
-2. **Importer les fichiers JSON dans MongoDB** :
-   - **Avec MongoDB Compass** :
-     - Accédez à **produits_db**
-     - Importez les fichiers JSON depuis `/backend/src/data/` pour **Gamez, Medidonc et SportSalut**
-   - **Via la ligne de commande** :
-     ```sh
-     mongoimport --db produits_db --collection Gamez --file backend/src/data/gamez.json --jsonArray
-     mongoimport --db produits_db --collection Medidonc --file backend/src/data/medidonc.json --jsonArray
-     mongoimport --db produits_db --collection SportSalut --file backend/src/data/sportsalut.json --jsonArray
-     ```
 
 ---
 
