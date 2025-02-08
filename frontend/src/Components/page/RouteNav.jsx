@@ -79,11 +79,11 @@ function RouteNav() {
 
                 <Route path="/fournisseurs" element={<ProviderList/>}/>
                 <Route path="/fournisseurs/creer" element={<ProviderCreate/>}/>
-                <Route path="/fournisseurs/modifier" element={<ProviderModify/>}/>
+                <Route path="/fournisseurs/:id" element={<ProviderModify/>}/>
 
                 <Route path="/categories" element={<CategoryList/>}/>
                 <Route path="/categories/creer" element={<CategoryCreate/>}/>
-                <Route path="/categories/modifier" element={<CategoryModify/>}/>
+                <Route path="/categories/:id" element={<CategoryModify/>}/>
 
             </Routes>
         </AppContext.Provider>
