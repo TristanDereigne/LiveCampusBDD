@@ -20,6 +20,7 @@ function ProductModify() {
 
     useEffect(() => {
         try {
+
             const product = products.find(p => p.id === parseInt(id));
             const provider = providers.find(p => p.id === product.provider_id);
             const category = categories.find(c => c.id === product.category_id);
@@ -28,7 +29,7 @@ function ProductModify() {
                 name: product.name,
                 description: product.description,
                 purchase_price: product.purchase_price,
-                status: product.status,
+                status: product.status.charAt(0).toUpperCase() + product.status.slice(1),
                 provider_name: provider.name,
                 category_name: category.name,
             })
@@ -38,7 +39,7 @@ function ProductModify() {
         }
 
 
-    },[])
+    },[products, providers, categories, id])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -65,6 +66,7 @@ function ProductModify() {
             console.log('Données envoyées:', dataToUpdate);
             await ProductService.updateProduct(dataToUpdate, id);
             navigate('/produits');
+            window.location.reload();
         } catch (error) {
             console.error(error);
             alert("Impossible de modifier le produit");
@@ -145,7 +147,7 @@ function ProductModify() {
                         </select>
                     </div>
                 </div>
-                <button className="w-full mt-4 text-lg bg-[#4857FF] text-white p-3 rounded-[16px] cursor-pointer">Créer</button>
+                <button className="w-full mt-4 text-lg bg-[#4857FF] text-white p-3 rounded-[16px] cursor-pointer">Modifier</button>
             </div>
         </form>
     );
