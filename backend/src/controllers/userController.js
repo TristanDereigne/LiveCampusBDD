@@ -19,11 +19,11 @@ const getOneUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { name, date_creation } = req.body;
-  if (!name || !date_creation)
+  const { name, password } = req.body;
+  if (!name || !password)
     return res.status(400).json({ error: "name and date_creation are required" });
 
-  User.createUser(name, date_creation, (err, newUser) => {
+  User.createUser(name, password, (err, newUser) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json(newUser);
   });

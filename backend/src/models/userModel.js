@@ -16,16 +16,16 @@ const User = {
     });
   },
 
-  createUser: (name, date_creation, callback) => {
+  createUser: (name, password, callback) => {
     db.query(
       "CALL InsertUser(?, ?)",
-      [name, date_creation],
+      [name, password],
       (err, result) => {
         if (err) return callback(err, null);
         callback(null, {
           id: result.insertId,
           name,
-          date_creation,
+          password,
         });
       }
     );
