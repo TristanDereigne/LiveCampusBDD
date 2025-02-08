@@ -1,18 +1,18 @@
-const db = require("./db");
+const db = require("../config/db");
 
 const Product = {
   getAllProducts: (callback) => {
-    db.query("SELECT * FROM product", (err, results) => {
+    db.query("CALL GetAllProducts()", (err, results) => {
       if (err) return callback(err, null);
-      callback(null, results);
+      callback(null, results[0]);
     });
   },
 
   getOneProduct: (id, callback) => {
-    db.query("SELECT * FROM product WHERE id = ?", [id], (err, results) => {
+    db.query("CALL GetOneProduct(?)", [id], (err, results) => {
       if (err) return callback(err, null);
-      if (results.length === 0) return callback(null, null);
-      callback(null, results[0]);
+      if (results[0].length === 0) return callback(null, null);
+      callback(null, results[0][0]);
     });
   },
 
@@ -21,21 +21,17 @@ const Product = {
     description,
     purchase_price,
     status,
-    date_creation,
-    date_update,
     provider_id,
     category_id,
     callback
   ) => {
     db.query(
-      "INSERT INTO product (name, description, purchase_price, status, date_creation,  date_update, provider_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?)",
+      "CALL InsertProduit(name, description, purchase_price, status, provider_id, category_id) VALUES (?, ?, ?, ?, ?, ? ,?)",
       [
         name,
         description,
         purchase_price,
         status,
-        date_creation,
-        date_update,
         provider_id,
         category_id,
       ],
@@ -47,8 +43,6 @@ const Product = {
           description,
           purchase_price,
           status,
-          date_creation,
-          date_update,
           provider_id,
           category_id,
         });
@@ -61,22 +55,13 @@ const Product = {
     description,
     purchase_price,
     status,
-    date_update,
     provider_id,
     category_id,
     callback
   ) => {
     db.query(
-      "UPDATE products SET name = ?,  description = ?, purchase_price = ?, status = ?, date_update = ?, provider_id = ?, category_id = ? WHERE id = ?"[
-        (name,
-        description,
-        purchase_price,
-        status,
-        date_update,
-        provider_id,
-        category_id,
-        id)
-      ],
+      "CALL UpdateProduct(?, ?, ?, ?, ?, ?)",
+      [id, name, description, purchase_price, status, provider_id, category_id],
       (err, result) => {
         if (err) return callback(err, null);
         callback(null, {
@@ -87,7 +72,7 @@ const Product = {
     );
   },
   deleteProduct: (id, callback) => {
-    db.query("DELETE FROM products WHERE id = ?", [id], (err, result) => {
+    db.query("CALL DeleteProduct(?)", [id], (err, result) => {
       if (err) return callback(err, null);
       callback(null, {
         message: "Product deleted",

@@ -1,47 +1,40 @@
-const db = require("./db");
+const db = require("../config/db");
 
 const Category = {
   getAllCategories: (callback) => {
-    db.query("SELECT * FROM category", (err, results) => {
+    db.query("CALL GetAllCategories()", (err, results) => {
       if (err) return callback(err, null);
-      callback(null, results);
-    });
-  },
-  getOneCategory: (id, callback) => {
-    db.query("SELECT * FROM category WHERE id = ?", [id], (err, results) => {
-      if (err) return callback(err, null);
-      if (results.length === 0) return callback(null, null);
       callback(null, results[0]);
     });
   },
-  createCategory: (name, date_creation, callback) => {
-    db.query(
-      "INSERT INTO category (name, date_creation) VALUES (?, ?)",
-      [name, date_creation],
-      (err, result) => {
-        if (err) return callback(err, null);
-        callback(null, {
-          id: result.insertId,
-          name,
-          date_creation,
-        });
-      }
-    );
+
+  getOneCategory: (id, callback) => {
+    db.query("CALL GetOneCategory(?)", [id], (err, results) => {
+      if (err) return callback(err, null);
+      if (results[0].length === 0) return callback(null, null);
+      callback(null, results[0][0]);
+    });
   },
+
+  createCategory: (name, callback) => {
+    db.query("CALL CreateCategory(?)", [name], (err, result) => {
+      if (err) return callback(err, null);
+      callback(null, { message: "Category created" });
+    });
+  },
+
   updateCategory: (id, name, callback) => {
-    db.query(
-      "UPDATE category SET name = ? WHERE id = ?"[(name, id)],
-      (err, result) => {
-        if (err) return callback(err, null);
-        callback(null, {
-          message: "Category name changed",
-          affectedRows: result.affectedRows,
-        });
-      }
-    );
+    db.query("CALL UpdateCategory(?, ?)", [id, name], (err, result) => {
+      if (err) return callback(err, null);
+      callback(null, {
+        message: "Category name updated",
+        affectedRows: result.affectedRows,
+      });
+    });
   },
+
   deleteCategory: (id, callback) => {
-    db.query("DELETE FROM category WHERE id = ?", [id], (err, result) => {
+    db.query("CALL DeleteCategory(?)", [id], (err, result) => {
       if (err) return callback(err, null);
       callback(null, {
         message: "Category deleted",

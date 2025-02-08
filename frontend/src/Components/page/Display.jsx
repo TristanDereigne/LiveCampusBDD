@@ -19,7 +19,7 @@ function Display() {
         
                   <div className="mt-8">
         
-                      <RouteNav/>
+                      <RouteNav />
         
                   </div>
         
