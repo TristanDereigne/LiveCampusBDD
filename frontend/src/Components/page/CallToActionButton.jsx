@@ -83,8 +83,7 @@ function CallToActionButton() {
     useEffect(() => {
 
         const currentPath = location.pathname;
-        const isEditPath = /\/(produits|fournisseurs|categories)\/[^/]+$/.test(currentPath);
-
+        const isEditPath = /\/(produits|fournisseurs|categories)\/(?!creer)[^/]+$/.test(currentPath);
         if (isEditPath) {
             const basePath = currentPath.split('/').slice(0, -1).join('/');
             setVariantValue(variants.warning);
