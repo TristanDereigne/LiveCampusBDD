@@ -58,6 +58,7 @@ CREATE TABLE products (
 
 
 DELIMITER //
+
 CREATE PROCEDURE GetAllProducts()
 BEGIN
     SELECT 
@@ -189,6 +190,7 @@ BEGIN
     SELECT * FROM providers ORDER BY date_creation DESC;
 END //
 
+
 CREATE PROCEDURE GetOneProvider(
     IN p_id INT
 )
@@ -307,7 +309,7 @@ DELETE FROM categories WHERE  id = c_id;
 
 END //
 
--- Creer un utilisateur ------------------------------------------------
+-- Creer un utilisateur ---------------------------------------------- --
 
 CREATE PROCEDURE InsertUser(
     IN p_username VARCHAR(50), 
@@ -322,7 +324,7 @@ BEGIN
     VALUES (p_username, hashed_password);
 END //
 
------------ Supprimmer un user -------------------------------------------------
+-- ----------- Supprimmer un user ----------------------------------------------- --
 
 CREATE PROCEDURE DeleteUser(
     IN p_id INT
@@ -331,7 +333,7 @@ BEGIN
     DELETE FROM users WHERE id = p_id;
 END //
 
--- Recuperer tous les users -------------------------------------------
+-- Recuperer tous les users ----------------------------------------- --
 
 CREATE PROCEDURE GetAllUsers()
 BEGIN
@@ -339,7 +341,7 @@ BEGIN
 END //
 
 
------- Recuperer un user ------------------------
+-- ---- Recuperer un user ---------------------- --
 CREATE PROCEDURE GetOneUser(
     IN p_username VARCHAR(50)
 )
