@@ -309,7 +309,7 @@ END //
 
 -- Creer un utilisateur ------------------------------------------------
 
-CREATE PROCEDURE CreateUser(
+CREATE PROCEDURE InsertUser(
     IN p_username VARCHAR(50), 
     IN p_password VARCHAR(255)
 )
@@ -340,7 +340,7 @@ END //
 
 
 ------ Recuperer un user ------------------------
-CREATE PROCEDURE GetUserByUsername(
+CREATE PROCEDURE GetOneUser(
     IN p_username VARCHAR(50)
 )
 BEGIN
