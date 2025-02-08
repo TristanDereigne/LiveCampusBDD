@@ -22,8 +22,6 @@ const createProduct = (req, res) => {
     description,
     purchase_price,
     status,
-    date_creation,
-    date_update,
     provider_id,
     category_id,
   } = req.body;
@@ -32,8 +30,6 @@ const createProduct = (req, res) => {
     !description ||
     !purchase_price ||
     !status ||
-    !date_creation ||
-    !date_update ||
     !provider_id ||
     !category_id
   )
@@ -46,8 +42,6 @@ const createProduct = (req, res) => {
     description,
     purchase_price,
     status,
-    date_creation,
-    date_update,
     provider_id,
     category_id,
     (err, newProduct) => {
@@ -64,8 +58,6 @@ const updateProduct = (req, res) => {
     description,
     purchase_price,
     status,
-    date_creation,
-    date_update,
     provider_id,
     category_id,
   } = req.body;
@@ -75,8 +67,6 @@ const updateProduct = (req, res) => {
     !description ||
     !purchase_price ||
     !status ||
-    !date_creation ||
-    !date_update ||
     !provider_id ||
     !category_id
   )
@@ -87,9 +77,7 @@ const updateProduct = (req, res) => {
     name,
     description,
     purchase_price,
-    status,
-    date_creation,
-    date_update,
+    status.toLowerCase(),
     provider_id,
     category_id,
     (err, result) => {
