@@ -31,7 +31,24 @@ const User = {
     );
   },
 
- 
+  updateUser: (
+    id,
+    name,
+    password,
+    callback
+  ) => {
+    db.query(
+      "CALL UpdateUser(?, ?, ?)",
+      [id, name, password],
+      (err, result) => {
+        if (err) return callback(err, null);
+        callback(null, {
+          message: "user updated",
+          affectedRows: result.affectedRows,
+        });
+      }
+    );
+  },
 
   deleteUser: (id, callback) => {
     db.query("CALL DeleteUser(?)", [id], (err, result) => {

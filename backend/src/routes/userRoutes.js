@@ -16,7 +16,7 @@ router.get("/:id", userController.getOneUser);
 // Route pour créer un nouvel utilisateur
 // URL : POST https://localhost:3000/api/users
 // Données requises dans le body :
-// - username (nom de l'utilisateur)
+// - name (nom de l'utilisateur)
 // - password (mot de passe de l'utilisateur)
 // Retourne un message de confirmation
 router.post("/", userController.createUser);
@@ -27,5 +27,14 @@ router.post("/", userController.createUser);
 // Paramètre : id (identifiant unique de l'utilisateur)
 // Retourne un message de confirmation avec le nombre de lignes affectées
 router.delete("/:id", userController.deleteUser);
+
+
+// Route pour mettre à jour un produit existant
+// URL : PUT https://localhost:3000/api/users/:id
+// Paramètre : id (identifiant unique du produit)
+// Données mises à jour dans le body (mêmes champs que la création)
+// Retourne un message de confirmation avec le nombre de lignes affectées
+router.put("/:id", userController.updateUser);
+
 
 module.exports = router;

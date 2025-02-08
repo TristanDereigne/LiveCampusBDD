@@ -29,6 +29,35 @@ const createUser = (req, res) => {
   });
 };
 
+const updateUser = (req, res) => {
+  const { id } = req.params;
+  const {
+    name,
+   password
+
+  } = req.body;
+
+  if (
+    !name ||
+    !password
+  )
+    return res.status(400).json({ error: "Data are required" });
+
+  User.updateUser(
+    id,
+    name,
+    password,
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      if (result.affectedRows === 0)
+        return res.status(404).json({ error: "User not found" });
+      res.json(result);
+    }
+  );
+};
+
+
+
 const deleteUser = (req, res) => {
   const { id } = req.params;
 
@@ -45,4 +74,5 @@ module.exports = {
   getOneUser,
   createUser,
   deleteUser,
+  updateUser,
 };

@@ -324,6 +324,28 @@ BEGIN
     VALUES (p_username, hashed_password);
 END //
 
+-- ---Modifier un user -------- --
+
+CREATE PROCEDURE UpdateUser(
+    IN  p_id INT ,
+    IN  p_name VARCHAR(254),
+    IN p_password  VARCHAR(254)
+) 
+
+BEGIN 
+DECLARE hashed_password VARCHAR(255);
+  SET hashed_password = SHA2(p_password, 256);
+
+UPDATE users
+SET  
+username = p_name, 
+password = hashed_password
+WHERE 
+id = p_id;
+
+END //
+
+
 -- ----------- Supprimmer un user ----------------------------------------------- --
 
 CREATE PROCEDURE DeleteUser(
@@ -385,6 +407,21 @@ INSERT INTO products (name, description, purchase_price, status, provider_id, ca
 ('Console Next-Gen', 'Nouvelle console de jeux avec SSD ultra rapide', 599.99, 'en rupture', 3, 6),
 ('Casque Audio Pro', 'Casque audio studio avec son haute fidélité', 299.99, 'disponible', 4, 3);
 
+INSERT INTO users (username, password) 
+VALUES ('user1', SHA2('password1', 256));
+
+
+-- Creation d'un utilisateur SGBDR ( Droit : SELECT , EXECUTE sur toutes les procédures stockées) ------- --
+-- se connecter sur mysql avec cet utilisateur -- 
+DROP USER IF EXISTS 'read_user'@'localhost';
+
+CREATE USER 'read_user'@'localhost' IDENTIFIED BY '';
+
+GRANT SELECT ON LiveCampusBDD.* TO 'read_user'@'localhost';
+
+GRANT EXECUTE ON LiveCampusBDD.* TO 'read_user'@'localhost';
+
+FLUSH PRIVILEGES;
 
 
 
