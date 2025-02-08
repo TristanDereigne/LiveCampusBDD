@@ -12,6 +12,17 @@ CREATE DATABASE LiveCampusBDD
 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE LiveCampusBDD;
 
+
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
 CREATE TABLE categories (
     id INT AUTO_INCREMENT,
     name VARCHAR(254) NOT NULL,
@@ -54,6 +65,7 @@ CREATE INDEX idx_category ON products (category_id);
 
 
 DELIMITER //
+
 CREATE PROCEDURE GetAllProducts()
 BEGIN
     SELECT 
@@ -180,6 +192,7 @@ BEGIN
     SELECT * FROM providers ORDER BY date_creation DESC;
 END //
 
+
 CREATE PROCEDURE GetOneProvider(
     IN p_id INT
 )
@@ -298,7 +311,71 @@ DELETE FROM categories WHERE  id = c_id;
 
 END //
 
-DELIMITER ; 
+-- Creer un utilisateur ---------------------------------------------- --
+
+CREATE PROCEDURE InsertUser(
+    IN p_username VARCHAR(50), 
+    IN p_password VARCHAR(255)
+)
+BEGIN
+    DECLARE hashed_password VARCHAR(255);
+    
+    SET hashed_password = SHA2(p_password, 256);
+
+    INSERT INTO users (username, password) 
+    VALUES (p_username, hashed_password);
+END //
+
+-- ---Modifier un user -------- --
+
+CREATE PROCEDURE UpdateUser(
+    IN  p_id INT ,
+    IN  p_name VARCHAR(254),
+    IN p_password  VARCHAR(254)
+) 
+
+BEGIN 
+DECLARE hashed_password VARCHAR(255);
+  SET hashed_password = SHA2(p_password, 256);
+
+UPDATE users
+SET  
+username = p_name, 
+password = hashed_password
+WHERE 
+id = p_id;
+
+END //
+
+
+-- ----------- Supprimmer un user ----------------------------------------------- --
+
+CREATE PROCEDURE DeleteUser(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM users WHERE id = p_id;
+END //
+
+-- Recuperer tous les users ----------------------------------------- --
+
+CREATE PROCEDURE GetAllUsers()
+BEGIN
+    SELECT id, username, date_creation FROM users ORDER BY date_creation DESC;
+END //
+
+
+-- ---- Recuperer un user ---------------------- --
+CREATE PROCEDURE GetOneUser(
+    IN p_id INT
+)
+BEGIN
+    SELECT id, username, password 
+    FROM users 
+    WHERE id = p_id;
+END //
+
+DELIMITER ;
 
 
 -- -------------------------Initial Data ----------------------------------------------------------- --
@@ -332,6 +409,21 @@ INSERT INTO products (name, description, purchase_price, status, provider_id, ca
 ('Console Next-Gen', 'Nouvelle console de jeux avec SSD ultra rapide', 599.99, 'en rupture', 3, 6),
 ('Casque Audio Pro', 'Casque audio studio avec son haute fidélité', 299.99, 'disponible', 4, 3);
 
+INSERT INTO users (username, password) 
+VALUES ('user1', SHA2('password1', 256));
+
+
+-- Creation d'un utilisateur SGBDR ( Droit : SELECT , EXECUTE sur toutes les procédures stockées) ------- --
+-- se connecter sur mysql avec cet utilisateur -- 
+DROP USER IF EXISTS 'read_user'@'localhost';
+
+CREATE USER 'read_user'@'localhost' IDENTIFIED BY '';
+
+GRANT SELECT ON LiveCampusBDD.* TO 'read_user'@'localhost';
+
+GRANT EXECUTE ON LiveCampusBDD.* TO 'read_user'@'localhost';
+
+FLUSH PRIVILEGES;
 
 
 

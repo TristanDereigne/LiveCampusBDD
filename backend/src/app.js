@@ -8,6 +8,7 @@ connectMongoDB();
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
 const providerRoutes = require("./routes/providerRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 // Importer les routes MongoDB
 const sportSalutRoutes = require("./routes/sportSalutRoutes");
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/providers", providerRoutes);
+app.use("/api/users", userRoutes);
 
 // Routes MongoDB
 app.use("/api/sportsalut", sportSalutRoutes);
