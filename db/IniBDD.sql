@@ -1,9 +1,15 @@
 
 
 -- -----------------------Structure BDD-----------------------------------------------------  -- 
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET character_set_client = utf8mb4;
+SET character_set_connection = utf8mb4;
+SET character_set_results = utf8mb4;
 
 DROP DATABASE IF EXISTS LiveCampusBDD;
-CREATE DATABASE LiveCampusBDD;
+CREATE DATABASE LiveCampusBDD
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE LiveCampusBDD;
 
 CREATE TABLE categories (
@@ -11,15 +17,15 @@ CREATE TABLE categories (
     name VARCHAR(254) NOT NULL,
     date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE providers (
     id INT AUTO_INCREMENT,
     name VARCHAR(254) UNIQUE NOT NULL,
-  date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE products (
@@ -37,9 +43,10 @@ CREATE TABLE products (
     FOREIGN KEY (provider_id) REFERENCES providers(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
+CREATE INDEX idx_provider ON products (provider_id);
+CREATE INDEX idx_category ON products (category_id);
 
 -- ------------------------PROCEDURE---------------------------------------------------------------------------------------------- --
 
@@ -99,20 +106,15 @@ CREATE PROCEDURE InsertProduit(
     IN category_id INT
 )
 BEGIN
-    DECLARE date_creation DATE;
-    DECLARE date_update DATE;
+
     DECLARE provider_id INT;
 
-    SET date_creation = NOW();
-    SET date_update = NOW();
-
-   
     IF provider_name IS NOT NULL AND provider_name != '' THEN
         
         SELECT id INTO provider_id FROM providers WHERE name = provider_name ;
 
         IF provider_id IS NULL THEN
-            INSERT INTO providers (name, date_creation) VALUES (provider_name, NOW());
+            INSERT INTO providers (name) VALUES (provider_name);
             SET provider_id = LAST_INSERT_ID(); 
         END IF;
     ELSE
@@ -121,8 +123,8 @@ BEGIN
 
 
 
-    INSERT INTO products (name, description, purchase_price, status, date_creation, date_update, provider_id, category_id) 
-    VALUES (name, description, purchase_price, status, date_creation, date_update, provider_id, category_id);
+    INSERT INTO products (name, description, purchase_price, status, provider_id, category_id)
+    VALUES (name, description, purchase_price, status, provider_id, category_id);
     
 END //
 

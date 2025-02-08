@@ -20,8 +20,6 @@ router.get("/:id", productController.getOneProduct);
 // - description (description du produit)
 // - purchase_price (prix d'achat)
 // - status (statut du produit : disponible, en rupture, etc.)
-// - date_creation (date de création)
-// - date_update (dernière mise à jour)
 // - provider_id (ID du fournisseur)
 // - category_id (ID de la catégorie)
 // Retourne l'objet du produit créé avec son ID
