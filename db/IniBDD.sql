@@ -343,12 +343,12 @@ END //
 
 -- ---- Recuperer un user ---------------------- --
 CREATE PROCEDURE GetOneUser(
-    IN p_username VARCHAR(50)
+    IN p_id INT
 )
 BEGIN
     SELECT id, username, password 
     FROM users 
-    WHERE username = p_username;
+    WHERE id = p_id;
 END //
 
 DELIMITER ;
