@@ -1,0 +1,62 @@
+[
+  {
+    "product": {
+      "product_name": "Call of Duty: Warzone",
+      "product_description": "Un jeu de tir battle royale en ligne",
+      "product_price": 59.99,
+      "product_status": "available"
+    },
+    "seller": {
+      "seller_name": "GameStoreX",
+      "seller_creation_date": "2022-01-15T00:00:00Z"
+    }
+  },
+  {
+    "product": {
+      "product_name": "FIFA 24",
+      "product_description": "Jeu de football réaliste",
+      "product_price": 49.99,
+      "product_status": "out of stock"
+    },
+    "seller": {
+      "seller_name": "BestGames",
+      "seller_creation_date": "2021-05-20T00:00:00Z"
+    }
+  },
+  {
+    "product": {
+      "product_name": "God of War Ragnarok",
+      "product_description": "Un jeu d'action-aventure épique avec Kratos",
+      "product_price": 69.99,
+      "product_status": "available"
+    },
+    "seller": {
+      "seller_name": "GamePlanet",
+      "seller_creation_date": "2023-02-10T00:00:00Z"
+    }
+  },
+  {
+    "product": {
+      "product_name": "Elden Ring",
+      "product_description": "RPG d'action en monde ouvert",
+      "product_price": 55.99,
+      "product_status": "available"
+    },
+    "seller": {
+      "seller_name": "MegaGames",
+      "seller_creation_date": "2020-07-08T00:00:00Z"
+    }
+  },
+  {
+    "product": {
+      "product_name": "The Last of Us Part II",
+      "product_description": "Jeu narratif intense",
+      "product_price": 39.99,
+      "product_status": "out of stock"
+    },
+    "seller": {
+      "seller_name": "UltimateGames",
+      "seller_creation_date": "2021-11-15T00:00:00Z"
+    }
+  }
+]
