@@ -15,7 +15,6 @@ export const CategoriesService = {
             }
             return response.data;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     },
@@ -32,8 +31,35 @@ export const CategoriesService = {
             }
             return response.data;
         } catch (error) {
-            console.log(error);
             throw new Error("Problème pour mettre à jour le produit");
+        }
+    },
+    createCategory: async (createdCategory) => {
+        try {
+            response = await instance.post(`/categories`, {
+                name: createdCategory.name,
+            })
+            if(response.status !== 200 && response.status !== 201) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            if (!response.data) {
+                throw new Error('Pas de donnée reçues');
+            }
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Impossible de créer le fournisseur");
+        }
+    },
+    deleteCategory: async (id) => {
+        try {
+            const response = await instance.delete(`/categories/${id}`);
+            if(response.status !== 200) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            return response.data;
+        } catch (error) {
+            throw new Error("Impossible de supprimer la catégorie");
         }
     }
 }

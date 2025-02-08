@@ -15,7 +15,6 @@ export const ProviderService = {
             }
             return response.data;
         } catch (error) {
-            console.error(error);
             throw error;
         }
     },
@@ -32,8 +31,34 @@ export const ProviderService = {
             }
             return response.data;
         } catch (error) {
-            console.log(error);
-            throw new Error("Problème pour mettre à jour le produit");
+            throw new Error("Problème pour mettre à jour le fournisseur");
+        }
+    },
+    createProvider: async (createdProvider) => {
+        try {
+            response = await instance.post(`/providers`, {
+                name: createdProvider.name,
+            })
+            if(response.status !== 200 && response.status !== 201) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            if (!response.data) {
+                throw new Error('Pas de donnée reçues');
+            }
+            return response.data;
+        } catch (error) {
+            throw new Error("Impossible de créer le fournisseur");
+        }
+    },
+    deleteProvider: async (id) => {
+        try {
+            const response = await instance.delete(`/providers/${id}`);
+            if(response.status !== 200) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            return response.data;
+        } catch (error) {
+            throw new Error("Impossible de supprimer le fournisseur");
         }
     }
 }

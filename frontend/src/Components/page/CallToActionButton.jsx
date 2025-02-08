@@ -1,9 +1,14 @@
 import {useEffect, useState} from "react";
-import {NavLink, useLocation} from "react-router";
+import {NavLink, useLocation, useNavigate} from "react-router";
 import plusIcon from "../../assets/icons/plusWhiteIcon.png";
 import closeIcon from "../../assets/icons/closeWhiteIcon.png";
+import {ProductService} from "../../../services/Products/ProductService.js";
+import {CategoriesService} from "../../../services/Categories/CategoryService.js";
+import {ProviderService} from "../../../services/Providers/ProviderService.js";
 
 function CallToActionButton() {
+
+    const navigate = useNavigate();
 
     const variants = {
         primary: 'bg-[#4857FF]',
@@ -27,14 +32,13 @@ function CallToActionButton() {
     const path = {
         addProduct: '/produits/creer',
         stopProduct: '/produits',
-        deleteProduct: '/produits/modifier',
+        deleteProduct: '/produits',
         addProvider: '/fournisseurs/creer',
         stopProvider: '/fournisseurs',
-        deleteProvider: '/produits/modifier',
+        deleteProvider: '/fournisseurs',
         addCategory: '/categories/creer',
         stopCategory: '/categories',
-        deleteCategory: '/produits/modifier',
-
+        deleteCategory: '/categories',
     };
 
     const [variantValue, setVariantValue] = useState(variants.primary);
@@ -44,58 +48,101 @@ function CallToActionButton() {
 
     let location = useLocation();
 
+    const handleClick = async (e) => {
+        const currentPath = location.pathname;
+        if (textValue === text.delete) {
+            e.preventDefault();
+
+            const pathParts = currentPath.split('/');
+            const id = pathParts[pathParts.length - 1];
+            const type = pathParts[1];
+
+            try {
+                switch (type) {
+                    case 'produits':
+                        await ProductService.deleteProduct(id);
+                        navigate('/produits');
+                        break;
+                    case 'fournisseurs':
+                        await ProviderService.deleteProvider(id);
+                        navigate('/fournisseurs');
+                        break;
+                    case 'categories':
+                        await CategoriesService.deleteCategory(id);
+                        navigate('/categories');
+                        break;
+                }
+                window.location.reload();
+            } catch (error) {
+                console.error("Erreur lors de la suppression:", error);
+                alert(`Impossible de supprimer ${type.slice(0, -1)}`);
+            }
+        }
+    };
+
     useEffect(() => {
-        if(location.pathname === "/produits"){
-            setVariantValue(variants.primary)
-            setTextValue(text.add)
-            setImgSrc(img.add)
-            setPathValue(path.addProduct);
-        } else if (location.pathname === "/produits/creer"){
-            setVariantValue(variants.warning)
-            setTextValue(text.stop)
-            setImgSrc(img.stop)
-            setPathValue(path.stopProduct);
-        } else if (location.pathname === "/produits/modifier"){
-            setVariantValue(variants.warning)
-            setTextValue(text.delete)
-            setImgSrc(img.delete)
-            setPathValue(path.deleteProduct);
-        } else if (location.pathname === "/fournisseurs"){
-            setVariantValue(variants.primary)
-            setTextValue(text.add)
-            setImgSrc(img.add)
-            setPathValue(path.addProvider);
-        } else if (location.pathname === "/fournisseurs/creer"){
-            setVariantValue(variants.warning)
-            setTextValue(text.stop)
-            setImgSrc(img.stop)
-            setPathValue(path.stopProvider);
-        } else if (location.pathname === "/fournisseurs/modifier"){
-            setVariantValue(variants.warning)
-            setTextValue(text.delete)
-            setImgSrc(img.delete)
-            setPathValue(path.deleteProvider);
-        } else if (location.pathname === "/categories"){
-            setVariantValue(variants.primary)
-            setTextValue(text.add)
-            setImgSrc(img.add)
-            setPathValue(path.addCategory);
-        } else if (location.pathname === "/categories/creer"){
-            setVariantValue(variants.warning)
-            setTextValue(text.stop)
-            setImgSrc(img.stop)
-            setPathValue(path.stopCategory);
-        } else if (location.pathname === "/categories/modifier"){
-            setVariantValue(variants.warning)
-            setTextValue(text.delete)
-            setImgSrc(img.delete)
-            setPathValue(path.deleteCategory);
+
+        const currentPath = location.pathname;
+        const isEditPath = /\/(produits|fournisseurs|categories)\/[^/]+$/.test(currentPath);
+
+        if (isEditPath) {
+            const basePath = currentPath.split('/').slice(0, -1).join('/');
+            setVariantValue(variants.warning);
+            setTextValue(text.delete);
+            setImgSrc(img.delete);
+            setPathValue(basePath);
+            return;
+        }
+
+        switch (currentPath) {
+            case "/produits":
+                setVariantValue(variants.primary);
+                setTextValue(text.add);
+                setImgSrc(img.add);
+                setPathValue(path.addProduct);
+                break;
+            case "/produits/creer":
+                setVariantValue(variants.warning);
+                setTextValue(text.stop);
+                setImgSrc(img.stop);
+                setPathValue(path.stopProduct);
+                break;
+            case "/fournisseurs":
+                setVariantValue(variants.primary);
+                setTextValue(text.add);
+                setImgSrc(img.add);
+                setPathValue(path.addProvider);
+                break;
+            case "/fournisseurs/creer":
+                setVariantValue(variants.warning);
+                setTextValue(text.stop);
+                setImgSrc(img.stop);
+                setPathValue(path.stopProvider);
+                break;
+            case "/categories":
+                setVariantValue(variants.primary);
+                setTextValue(text.add);
+                setImgSrc(img.add);
+                setPathValue(path.addCategory);
+                break;
+            case "/categories/creer":
+                setVariantValue(variants.warning);
+                setTextValue(text.stop);
+                setImgSrc(img.stop);
+                setPathValue(path.stopCategory);
+                break;
+            default:
+                setVariantValue(variants.primary);
+                setTextValue(text.add);
+                setImgSrc(img.add);
+                setPathValue(path.addProduct);
         }
     }, [location]);
 
     return (
         <NavLink to={pathValue}>
             <button
+                onClick={handleClick}
                 className={`flex justify-between items-center gap-3 rounded-full py-2 xl:py-3 px-5 font-bold cursor-pointer transform active:scale-95 transition-transform duration-150 text-white ${variantValue}`}
                 type="button">
                 <p>{textValue}</p>
