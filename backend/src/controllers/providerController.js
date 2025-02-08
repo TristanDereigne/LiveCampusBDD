@@ -17,11 +17,11 @@ const getOneProvider = (req, res) => {
   });
 };
 const createProvider = (req, res) => {
-  const { name, date_creation } = req.body;
-  if (!name || !date_creation)
+  const { name } = req.body;
+  if (!name)
     return res.status(400).json({ error: "name are required" });
 
-  Provider.createProvider(name, date_creation, (err, newProvider) => {
+  Provider.createProvider(name, (err, newProvider) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json(newProvider);
   });

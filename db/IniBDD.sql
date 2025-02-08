@@ -114,26 +114,10 @@ CREATE PROCEDURE InsertProduit(
     IN description TEXT, 
     IN purchase_price DECIMAL(10,2), 
     IN status VARCHAR(50),
-    IN provider_name VARCHAR(254), 
+    IN provider_id INT,
     IN category_id INT
 )
 BEGIN
-
-    DECLARE provider_id INT;
-
-    IF provider_name IS NOT NULL AND provider_name != '' THEN
-        
-        SELECT id INTO provider_id FROM providers WHERE name = provider_name ;
-
-        IF provider_id IS NULL THEN
-            INSERT INTO providers (name) VALUES (provider_name);
-            SET provider_id = LAST_INSERT_ID(); 
-        END IF;
-    ELSE
-        SET provider_id = NULL; 
-    END IF;
-
-
 
     INSERT INTO products (name, description, purchase_price, status, provider_id, category_id)
     VALUES (name, description, purchase_price, status, provider_id, category_id);

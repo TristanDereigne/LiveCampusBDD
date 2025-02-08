@@ -26,7 +26,7 @@ const Product = {
     callback
   ) => {
     db.query(
-      "CALL InsertProduit(name, description, purchase_price, status, provider_id, category_id) VALUES (?, ?, ?, ?, ?, ? ,?)",
+      "CALL InsertProduit(?, ?, ?, ?, ?, ?)",
       [
         name,
         description,
@@ -60,7 +60,7 @@ const Product = {
     callback
   ) => {
     db.query(
-      "CALL UpdateProduct(?, ?, ?, ?, ?, ?)",
+      "CALL UpdateProduct(?, ?, ?, ?, ?, ?, ?)",
       [id, name, description, purchase_price, status, provider_id, category_id],
       (err, result) => {
         if (err) return callback(err, null);
