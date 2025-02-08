@@ -21,14 +21,14 @@ let product2 = {
 }*/
 
 //let products = [product1, product2]; //Example de produits reçus
+
 let response = '';
 
 export const ProductService = {
 
     getAllProducts: async () => {
         try {
-            response = await instance.get('/products')
-            console.log(response);
+            response = await instance.get('/products/')
             if(response.status !== 200) {
                 throw new Error(`Erreur HTTP: ${response.status}`);
             }
@@ -41,12 +41,48 @@ export const ProductService = {
             throw error;
         }
     },
-    createProduct: (productToCreate) => {
+    getProduct: async (id) => {
+        try {
+            response = await instance.get(`/products/${id}`)
+            if(response.status !== 200) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            if (!response.data) {
+                throw new Error('Pas de donnée reçues');
+            }
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    },
+    updateProduct: async (updatedProduct, id) => {
+        try {
+            response = await instance.put(`/products/${id}`, {
+                name: updatedProduct.name,
+                purchase_price: updatedProduct.purchase_price,
+                description: updatedProduct.description,
+                status: updatedProduct.status,
+                provider_id: updatedProduct.provider_id,
+                category_id: updatedProduct.category_id,
+            })
+            if(response.status !== 200) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            if (!response.data) {
+                throw new Error('Pas de donnée reçues');
+            }
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Problème pour mettre à jour le produit");
+        }
+    }
+    /*createProduct: (productToCreate) => {
         instance.post(`/products`, {
-            id: productToCreate.id,
             name: productToCreate.title,
-            purchase_price: productToCreate.purchase_price,
             description: productToCreate.description,
+            purchase_price: productToCreate.purchase_price,
             status: productToCreate.status,
             provider_id: productToCreate.provider_id,
             category_id: productToCreate.category_id,
@@ -57,22 +93,5 @@ export const ProductService = {
             .catch(function (error) {
                 console.log(error);
             });
-    },
-    updateProduct: (productToModify, id) => {
-        instance.put(`/products/${id}`, {
-            id: productToCreate.id,
-            name: productToCreate.title,
-            purchase_price: productToCreate.purchase_price,
-            description: productToCreate.description,
-            status: productToCreate.status,
-            provider_id: productToCreate.provider_id,
-            category_id: productToCreate.category_id,
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+    }*/
 }

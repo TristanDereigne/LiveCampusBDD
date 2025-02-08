@@ -1,53 +1,44 @@
 import {useNavigate, useParams} from "react-router";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {AppContext} from "../../../hooks/context/AppContext.js";
+import {ProductService} from "../../../../services/Products/ProductService.js";
 
 function ProductModify() {
 
     const navigate = useNavigate();
-
+    const { products, providers, categories} = useContext(AppContext);
     const { id } = useParams();
 
-    const category1 = {
-        id: 1,
-        name: "Carte graphique"
-    }
-    const category2 = {
-        id: 2,
-        name: "Périphérique"
-    }
-    const provider1 = {
-        id: 1,
-        name: "Asus"
-    }
-    const provider2 = {
-        id: 2,
-        name: "MSI"
-    }
-
-    const categories = [category1, category2];
-    const providers = [provider1, provider2];
-
     const [formData, setFormData] = useState({
-        productName: '',
+        name: '',
         description: '',
-        price: '',
+        purchase_price: '',
         status: '',
-        provider: '',
-        category: ''
+        provider_name: '',
+        category_name: '',
     });
 
     useEffect(() => {
-        const initialData = {
-            productName: 'zeffzfz',
-            description: 'fzfzzf',
-            price: '4',
-            status: 'Disponible',
-            provider: 'Asus',
-            category: 'Périphérique'
-        };
-        setFormData(initialData);
-        console.log(formData)
-    }, []);
+        try {
+            const product = products.find(p => p.id === parseInt(id));
+            const provider = providers.find(p => p.id === product.provider_id);
+            const category = categories.find(c => c.id === product.category_id);
+
+            setFormData({
+                name: product.name,
+                description: product.description,
+                purchase_price: product.purchase_price,
+                status: product.status,
+                provider_name: provider.name,
+                category_name: category.name,
+            })
+        } catch (error) {
+            console.error(error);
+            alert("Problème lors de la récupération des infos produit.")
+        }
+
+
+    },[])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -57,10 +48,27 @@ function ProductModify() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Données du formulaire:', formData);
-        navigate('/produits');
+        try {
+            const selectedProvider = providers.find(p => p.name === formData.provider_name);
+            const selectedCategory = categories.find(c => c.name === formData.category_name);
+
+            const dataToUpdate = {
+                name: formData.name,
+                description: formData.description,
+                purchase_price: parseFloat(formData.purchase_price),
+                status: formData.status.charAt(0).toUpperCase() + formData.status.slice(1),
+                provider_id: selectedProvider?.id,
+                category_id: selectedCategory?.id
+            };
+            console.log('Données envoyées:', dataToUpdate);
+            await ProductService.updateProduct(dataToUpdate, id);
+            navigate('/produits');
+        } catch (error) {
+            console.error(error);
+            alert("Impossible de modifier le produit");
+        }
     };
 
 
@@ -72,8 +80,8 @@ function ProductModify() {
                 <div>
                     <label className="block text-black font-bold">Nom du produit</label>
                     <input
-                        name="productName"
-                        value={formData.productName}
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
                         className="bg-[#EBEBEB] p-2 w-full rounded" placeholder="RTX 5090 TI Strix Asus" />
                 </div>
@@ -89,8 +97,8 @@ function ProductModify() {
                     <div>
                         <label className="block text-black font-bold">Prix d'achat (€)</label>
                         <input type="number"
-                               name="price"
-                               value={formData.price}
+                               name="purchase_price"
+                               value={formData.purchase_price}
                                onChange={handleChange}
                                className="bg-[#EBEBEB] p-2 w-full rounded" placeholder="0" />
                     </div>
@@ -109,8 +117,8 @@ function ProductModify() {
                     <div>
                         <label className="block text-black font-bold">Fournisseur</label>
                         <select
-                            name="provider"
-                            value={formData.provider}
+                            name="provider_name"
+                            value={formData.provider_name}
                             onChange={handleChange}
                             className="bg-[#EBEBEB] p-2 w-full rounded">
                             <option value="">Choisir</option>
@@ -124,8 +132,8 @@ function ProductModify() {
                     <div>
                         <label className="block text-black font-bold">Catégorie</label>
                         <select
-                            name="category"
-                            value={formData.category}
+                            name="category_name"
+                            value={formData.category_name}
                             onChange={handleChange}
                             className="bg-[#EBEBEB] p-2 w-full rounded">
                             <option value="">Choisir</option>
