@@ -8,11 +8,11 @@ const getAllCategories = (req, res) => {
 };
 
 const createCategory = (req, res) => {
-  const { name, date_creation } = req.body;
-  if (!name || !date_creation)
+  const { name } = req.body;
+  if (!name)
     return res.status(400).json({ error: "name are required" });
 
-  Category.createCategory(name, date_creation, (err, newCategory) => {
+  Category.createCategory(name, (err, newCategory) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json(newCategory);
   });
